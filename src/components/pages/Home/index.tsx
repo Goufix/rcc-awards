@@ -3,6 +3,7 @@ import tabletop from "tabletop";
 import MemberCard from "../../MemberCard";
 import SearchBar from "../../SearchBar";
 import { Container, Row, Col } from "react-bootstrap";
+import Typing from "react-typing-animation";
 
 interface Sheet {
   Nick: string;
@@ -68,7 +69,13 @@ export default function Home() {
   if (loading) {
     return (
       <Container>
-        <h1> Pera aí, carregando...</h1>
+        <h1 style={{ display: "inline" }}>
+          <Typing hideCursor speed={0}>
+            carregando
+            <Typing.Speed ms={50} />
+            ...
+          </Typing>
+        </h1>
       </Container>
     );
   }
