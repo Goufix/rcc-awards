@@ -13,7 +13,7 @@ export default function SearchBar(props: Props) {
           autoComplete="off"
           onChange={props.handleChange}
           type="text"
-          placeholder="Pesquisar professor"
+          placeholder="Pesquisar policial"
         />
         <Form.Text className="text-muted">
           Escrava o nick do policial, a pesquisa é feita automáticamente.
