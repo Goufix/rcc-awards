@@ -66,7 +66,7 @@ export default function Home() {
   }, [sheetData, setRenderData]);
 
   if (loading) {
-    return <h1> Loading...</h1>;
+    return <h1> Pera aí, carregando...</h1>;
   }
 
   return (
