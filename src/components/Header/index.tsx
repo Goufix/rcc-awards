@@ -6,7 +6,7 @@ export default function Header() {
     <>
       <Container className="d-flex justify-content-between">
         <h1>Contagem de votos conquistados RCC Awards - 2020</h1>
-        <hr></hr>
+        <hr />
       </Container>
     </>
   );
