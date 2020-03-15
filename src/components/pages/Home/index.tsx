@@ -5,12 +5,12 @@ import SearchBar from "../../SearchBar";
 import { Container, Row, Col } from "react-bootstrap";
 
 interface Sheet {
-  nick: string;
+  Nick: string;
   whoVoted: string;
   STATUS: string;
 }
 interface UserData {
-  nick: string;
+  Nick: string;
   points: number;
 }
 
@@ -18,29 +18,35 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [userData, setuserData] = useState<UserData[]>([]);
   const [filterNick, setFilterNick] = useState("");
+  const [totalPoints, setTotalPoints] = useState(0);
 
   useEffect(() => {
     async function getSheetData() {
       await tabletop.init({
         key: "1FwYH3PzWkwC9FBMnp2xPRlrG-FY7kJUpl4oC1GpOllU",
         callback: (data: Sheet[]) => {
-          const users = [...new Set(data.map(value => value.nick))];
+          const users = [
+            ...new Set(data.map(value => value.Nick.toLowerCase()))
+          ];
           const userDataTemp: any[] = [];
+          setTotalPoints(
+            data.filter(line => line.STATUS === "APROVADO").length
+          );
           users.forEach(user => {
             const points = data
               .filter(line => line.STATUS === "APROVADO")
-              .filter(line => line.nick === user).length;
+              .filter(line => line.Nick.toLowerCase() === user).length;
             if (points === 0) {
               return;
             }
-            userDataTemp.push({ nick: user, points });
+            userDataTemp.push({ Nick: user, points });
           });
           if (loading) {
             setLoading(false);
           }
           setuserData(
             userDataTemp
-              .filter(line => line.nick.includes(filterNick))
+              .filter(line => line.Nick.includes(filterNick))
               .sort((a, b) => a.points - b.points)
               .reverse()
           );
@@ -49,7 +55,7 @@ export default function Home() {
       });
     }
     getSheetData();
-  }, [filterNick]);
+  }, [filterNick, loading]);
 
   if (loading) {
     return <h1> Loading...</h1>;
@@ -58,14 +64,20 @@ export default function Home() {
   return (
     <>
       <Container>
-        <SearchBar handleChange={e => setFilterNick(e.currentTarget.value)} />
+        <SearchBar
+          handleChange={e => setFilterNick(e.currentTarget.value.toLowerCase())}
+        />
+        <h2>
+          Os policiais já conseguiram <strong>{totalPoints}</strong> votos!
+        </h2>
+        <br />
         <Row>
           {userData.map((user, index) => {
             return (
               <Col sm={4} key={index}>
                 <MemberCard
                   key={index}
-                  name={user.nick}
+                  name={user.Nick}
                   points={user.points}
                   color={
                     index === 0
