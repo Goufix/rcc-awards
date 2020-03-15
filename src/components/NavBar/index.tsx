@@ -16,6 +16,13 @@ export function NavigationBar() {
             <img src={rccLogo} alt="RCC" />
           </Nav>
         </Navbar.Collapse>
+        <a
+          href="https://api.whatsapp.com/send?phone=5519991913193"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <p style={{ color: "#fff" }}>{"<Goufix />"}</p>
+        </a>
       </Container>
     </Navbar>
   );
