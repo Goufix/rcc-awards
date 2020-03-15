@@ -15,6 +15,7 @@ interface UserData {
 }
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const [userData, setuserData] = useState<UserData[]>([]);
   const [filterNick, setFilterNick] = useState("");
 
@@ -34,6 +35,9 @@ export default function Home() {
             }
             userDataTemp.push({ nick: user, points });
           });
+          if (loading) {
+            setLoading(false);
+          }
           setuserData(
             userDataTemp
               .filter(line => line.nick.includes(filterNick))
@@ -47,7 +51,7 @@ export default function Home() {
     getSheetData();
   }, [filterNick]);
 
-  if (userData.length === 0) {
+  if (loading) {
     return <h1> Loading...</h1>;
   }
 
